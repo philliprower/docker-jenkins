@@ -9,6 +9,7 @@ ADD devnexus.tent.trt.csaa.pri /tmp/
 RUN keytool -importcert -keystore /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cacerts -keypass changeit -storepass changeit -noprompt -alias devnexus -file /tmp/devnexus.tent.trt.csaa.pri
 RUN apt-get update && apt-get install -y apt-utils rubygems-integration
 RUN npm install -g grunt-cli
+RUN gem install sass
 ADD /etc/ /etc/
 RUN adduser jenkins sudo
 USER jenkins
