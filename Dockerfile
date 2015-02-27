@@ -7,6 +7,7 @@ RUN curl -SL http://nodejs.org/dist/v0.12.0/node-v0.12.0.tar.gz -o node-v0.12.0.
 	&& ./configure && make && make install
 ADD devnexus.tent.trt.csaa.pri /tmp/
 RUN keytool -importcert -keystore /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cacerts -keypass changeit -storepass changeit -noprompt -alias devnexus -file /tmp/devnexus.tent.trt.csaa.pri
+RUN apt-get update && apt-get install -y apt-utils rubygems-integration
 RUN npm install -g grunt-cli
 ADD /etc/ /etc/
 RUN adduser jenkins sudo
