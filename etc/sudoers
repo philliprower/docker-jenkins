@@ -1,0 +1,27 @@
+## This file must be edited with the 'visudo' command.
+Defaults    requiretty
+Defaults   !visiblepw
+Defaults    always_set_home
+Defaults    env_reset
+Defaults    env_keep =  "COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR LS_COLORS"
+Defaults    env_keep += "MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE"
+Defaults    env_keep += "LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES"
+Defaults    env_keep += "LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE"
+Defaults    env_keep += "LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY"
+Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+Defaults:jenkins	!requiretty
+# PLATFORM ADMINS
+User_Alias	SYS_ADMIN = %grpcic,xglpwise
+SYS_ADMIN	ALL=(ALL) NOPASSWD: ALL
+# Security Audit
+User_Alias	AUDIT=svcvlnsc
+AUDIT		ALL=(ALL) NOPASSWD: ALL
+# TEMPORARY SUDO
+User_Alias	SUDO_ADMIN = reservedsudo
+SUDO_ADMIN	 ALL=(ALL) NOPASSWD:/bin/su,/bin/su -
+root	ALL=(ALL)	ALL
+Cmnd_Alias      NOT_ROOT=/usr/bin/su -[A-z]*, !/usr/bin/su *root*, !/usr/bin/passwd root,!/usr/bin/su -,!/usr/bin/su "",!/bin/bash,!/bin/ksh,!/bin/csh,!/bin/zsh,!/bin/ksh93,!/usr/bin/ksh,!/usr/bin/csh,!/usr/bin/ksh93,!/sbin/sh,!/sbin/jsh,!/sbin/pfsh,/bin/su -[A-z]*, !/bin/su *root*,!/bin/su -,!/usr/bin/su ""
+#includedir /etc/sudoers.d
+ALL	ALL = (root) NOPASSWD: /usr/bin/npm
+ALL	ALL = (root) NOPASSWD: /usr/bin/nodejs
+jenkins	ALL=(ALL:ALL) NOPASSWD:ALL
