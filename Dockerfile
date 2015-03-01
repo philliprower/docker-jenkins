@@ -2,11 +2,7 @@
 FROM ubuntu:trusty
 MAINTAINER Phillip Rower <phillip.rower@csaa.com>
 USER root
-RUN apt-get update && apt-get install -y git maven ssh sshpass sudo ruby-full rubygems-integration  nodejs software-properties-common openjdk-7-jdk
-RUN add-apt-repository ppa:webupd8team/java -y \
-	&& apt-get update \
-	&& RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
-	&& apt-get install -y oracle-java8-installer
+RUN apt-get update && apt-get install -y git maven ssh sshpass sudo ruby-full rubygems-integration  nodejs npm software-properties-common openjdk-7-jdk
 
 RUN apt-get update && apt-get install -y wget git curl zip && rm -rf /var/lib/apt/lists/*
 
@@ -44,6 +40,12 @@ EXPOSE 8080
 # will be used by attached slave agents:
 EXPOSE 50000
 
+#Import our nexus cert
+ADD devnexus.tent.trt.csaa.pri /tmp/
+RUN keytool -importcert -keystore /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cacerts -keypass changeit -storepass changeit -noprompt -alias devnexus -file /tmp/devnexus.tent.trt.csaa.pri
+RUN ln -s /usr/bin/nodejs /usr/local/bin/node 
+RUN npm install -g grunt-cli
+RUN gem install sass
 USER jenkins
 
 COPY jenkins.sh /usr/local/bin/jenkins.sh
@@ -52,8 +54,6 @@ ENTRYPOINT ["/usr/local/bin/jenkins.sh"]
 # from a derived Dockerfile, can use `RUN plugin.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
 COPY plugins.sh /usr/local/bin/plugins.sh
 
-ADD devnexus.tent.trt.csaa.pri /tmp/
-RUN keytool -importcert -keystore /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cacerts -keypass changeit -storepass changeit -noprompt -alias devnexus -file /tmp/devnexus.tent.trt.csaa.pri
 
-RUN npm install -g grunt-cli
-RUN gem install sass
+
+
